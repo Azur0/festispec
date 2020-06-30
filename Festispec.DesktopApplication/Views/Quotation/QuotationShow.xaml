@@ -1,0 +1,56 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.QuotationShow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+        
+        <Grid>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <ScrollViewer Margin="0,-5,0,5">
+                <Grid>
+                    <StackPanel/>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}" Width="538" Height="916" RenderTransformOrigin="-500,0.475" Margin="0,0,60,0" Padding="29,0,0,0" HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource Title}" Margin="0,0,0,0">
+                            <TextBlock Style="{StaticResource TitleTitle}" Width="1376">Offerte Bekijken</TextBlock>
+                        </StackPanel>
+                        <StackPanel Margin="0 0 0 20">
+                        <TextBlock FontWeight="Bold">Naam opdracht:</TextBlock>
+                        <TextBlock Text="{x:Bind QuotationViewModel.EventName}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="0 0 0 20">
+                            <TextBlock FontWeight="Bold">Prijs:</TextBlock>
+                        <TextBlock Text="{x:Bind QuotationViewModel.Price}"></TextBlock>
+                    </StackPanel>
+                        <StackPanel Margin="0 0 0 20">
+                            <TextBlock FontWeight="Bold">Omschrijving:</TextBlock>
+                            <TextBlock Text="{x:Bind QuotationViewModel.Text}"></TextBlock>
+                        </StackPanel>
+                        <TextBlock FontWeight="Bold">Status:</TextBlock>
+                        <TextBlock Text="{x:Bind QuotationViewModel.QuotationStatus}"></TextBlock>
+                    </StackPanel>
+                    
+              </Grid>
+            </ScrollViewer>
+
+			<components:BtnBar Grid.Column="0" Grid.Row="1">
+				<components:BtnSecondary Tapped="CancelClick">Terug</components:BtnSecondary>
+				<components:BtnSecondary Tapped="EditQuotation">Bewerken</components:BtnSecondary>
+			</components:BtnBar>
+        </Grid>
+
+        <components:Loader x:Name="overlay" Visibility="Collapsed"></components:Loader>
+    </Grid>
+</Page>

@@ -1,0 +1,33 @@
+﻿@model Festispec.WebApplication.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if(Session["userID"] != null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+<h1 class="page-title">Login</h1>
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="text-center">
+        <div class="login-form text-left">
+
+            @Html.LabelFor(model => model.Email)
+            @Html.EditorFor(model => model.Email)
+
+            @Html.LabelFor(model => model.Password)
+            @Html.EditorFor(model => model.Password)
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    Inloggen
+                </button>
+            </div>
+        </div>
+    </div>
+}

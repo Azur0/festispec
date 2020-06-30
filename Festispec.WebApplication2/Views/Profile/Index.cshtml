@@ -1,0 +1,53 @@
+﻿@model Festispec.WebApplication.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Profiel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if(Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+}
+
+<h1 class="page-title">Profiel</h1>
+<div class="text-center margin-2">
+    <div class="profile-picture" style="background-image: url('http://via.placeholder.com/400x300/'); background-size: cover; background-position: center center;"></div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="profile-form text-center">
+        <div class="profile-form--title">
+            Profiel
+        </div>
+        <div class="profile-form--content text-left">
+            <div class="profile-form--input">
+                @Html.LabelFor(model => model.Name)
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @disabled = "true", @value = @Model.Name } })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+            <div class="profile-form--input">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+            <div class="profile-form--input">
+                @Html.LabelFor(model => model.Password, "Wachtwoord")
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+            <div class="profile-form--input">
+                @Html.LabelFor(model => model.ConfirmPassword, "Wachtwoord bevestigen")
+                @Html.EditorFor(model => model.ConfirmPassword)
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+        <div class="profile-form--footer">
+            <button type="submit" class="btn btn-primary">Bijwerken</button>
+        </div>
+    </div>
+}

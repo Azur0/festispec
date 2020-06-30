@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 525px; /* The height is 400 pixels */
+            width: 100%; /* The width is the width of the web page */
+        }
+        html {
+            overflow-y: hidden;
+            overflow-x: hidden;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var locations = [];
+        // Initialize and add the map
+        function initMap() {
+            // The location of Den Bosch
+            var denbosch = { lat: 51.69917, lng: 5.30417 };
+            // The map, centered at Den Bosch
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 7, center: denbosch });
+        }
+
+        function addToLocation(_name, _type, latitude, longitude) {
+            locations.push([_name, _type, latitude, longitude]);
+        }
+
+        function setMarkers() {
+            var denbosch = { lat: 51.69917, lng: 5.30417 };
+            var mapOptions = {
+              zoom: 7,
+              center: denbosch
+            }
+
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            var infowindow, content, marker, i;
+
+            for (i = 0; i < locations.length; i++) {
+                infowindow = new google.maps.InfoWindow();
+
+                if (locations[i][1] == 'inspector') {
+                    content = '<div>' +
+                        '<b>Inspecteur</b>: ' + locations[i][0]
+                    '</div>';
+                }
+                else if (locations[i][1] == 'customer') {
+                    content = '<div>' +
+                        '<b>Klant</b>: ' + locations[i][0]
+                    '</div>';
+                }
+                else if (locations[i][1] == 'event') {
+                    content = '<div>' +
+                        '<b>Evenement</b>: ' + locations[i][0]
+                    '</div>';
+                }
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][2], locations[i][3]),
+                    map: map,
+                });
+
+                google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+                    if (locations[i][1] == 'inspector') {
+                        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                    }
+                    else if (locations[i][1] == 'customer') {
+                        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+                    }
+                    else if (locations[i][1] == 'event') {
+                        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                    }
+
+                    return function () {
+                        infowindow.setContent(content);
+                        infowindow.open(map,marker);
+                    };
+                })(marker,content,infowindow)); 
+            }
+        }
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt_NhG5ffgWCJ6aSJ4BACtdzLsC_hHy38&callback=initMap">
+    </script>
+</body>
+</html>

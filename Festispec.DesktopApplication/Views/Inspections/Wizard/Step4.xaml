@@ -1,0 +1,103 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.Inspections.Wizard.Step4"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" AllowDrop="True">
+    <StackPanel x:Name="RootPanel" DataContext="{x:Bind inspectionViewModel}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0">
+
+                <ListView
+					Width="600"
+                    ItemsSource="{Binding InspectionForms}">
+					<ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                x:Name="InspectionFormItem"
+								Width="300"
+								Padding="20"
+								Background="AliceBlue"
+								AllowDrop="True"
+								DragOver="ListView_DragOver"
+								Drop="TextBlock_Drop">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Vragenlijst: "></TextBlock>
+									<TextBlock Text="{Binding Name}"/>
+								</StackPanel>
+								<StackPanel Orientation="Vertical">
+									<TextBlock>Asignees:</TextBlock>
+									<ListView ItemsSource="{Binding Assignees}">
+										<ListView.ItemTemplate>
+											<DataTemplate>
+                                                <StackPanel Tag="{Binding ElementName=InspectionFormItem, Path=DataContext}">
+                                                    <TextBlock Text="{Binding FullName}"></TextBlock>
+                                                    <Button Tag="{Binding Id}" Click="RemoveAsingee">Remove</Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+										</ListView.ItemTemplate>
+									</ListView>
+								</StackPanel>
+							</StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+			<components:GroupWrapper
+				Grid.Row="0"
+				Grid.Column="1"
+                HorizontalAlignment="Left"
+				Title="Beschikbare inspecteurs"
+				ComponenWidth="700"
+				ComponentHeight="800">
+				<components:GroupWrapper.WrapperBtn>
+					<TextBox x:Name="UserSearch" KeyUp="UserSearch_KeyUp" Style="{StaticResource FormInputGroupWrap}"></TextBox>
+				</components:GroupWrapper.WrapperBtn>
+				<components:GroupWrapper.ChildContent>
+					<ListView x:Name="UserList" ItemsSource="{Binding AvalibleUsers}">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<Grid
+									Tag="{Binding userViewModel.Id}" 
+									DragStarting="StackPanel_DragStarting"
+									CanDrag="True">
+
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*"></RowDefinition>
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+									</Grid.ColumnDefinitions>
+
+									<Image Grid.Row="0" Grid.Column="0"/>
+
+									<StackPanel
+										Grid.Row="0"
+										Grid.Column="1">
+										<TextBlock Text="{Binding userViewModel.FullName}"></TextBlock>
+										<TextBlock Text="{Binding distance}"></TextBlock>
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</components:GroupWrapper.ChildContent>
+			</components:GroupWrapper>
+		</Grid>
+        
+    </StackPanel>
+</Page>

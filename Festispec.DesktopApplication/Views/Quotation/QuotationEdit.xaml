@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.QuotationEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="161*"/>
+            <RowDefinition Height="339*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer>
+                <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+                    <StackPanel Style="{StaticResource Title}">
+                        <TextBlock Style="{StaticResource TitleTitle}">Offerte wijzigen</TextBlock>
+                    </StackPanel>
+
+                    <components:ErrorBox x:Name="errorBox" Visibility="Collapsed"></components:ErrorBox>
+
+                    <StackPanel Style="{StaticResource Form}">
+                        <TextBlock Text="{x:Bind QuotationViewModel.EventName}" TextWrapping="Wrap" Height="50" FontSize="15"/>
+                        <components:TextField x:Name="FieldPrice" Title="Prijs" Placeholder="" Text="{x:Bind Mode=TwoWay, Path=QuotationViewModel.Price}"/>
+                        <components:TextField x:Name="About" Title="Omschrijving" Placeholder="Omschrijving van de offerte" Text="{x:Bind Mode=TwoWay, Path=QuotationViewModel.Text}"/>
+                        <components:DropDown Title="offerte status" Options="{x:Bind dropDownItemsQuotation.GetOptions}" Placeholder="Selecteer offerte status" SelectedValue="{x:Bind QuotationViewModel.QuotationOption, Mode=TwoWay}"></components:DropDown>
+
+                    </StackPanel>
+
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <components:BtnBar Grid.Column="0" Grid.Row="1">
+                <components:BtnSecondary Tapped="CancelClick">Annuleer</components:BtnSecondary>
+                <components:BtnPrimary Tapped="UpdateQuotation">Opslaan</components:BtnPrimary>
+            </components:BtnBar>
+
+        </Grid>
+        <components:Loader x:Name="overlay" Visibility="Collapsed" Grid.RowSpan="2"></components:Loader>
+    </Grid>
+</Page>

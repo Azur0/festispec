@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.Inspections.WizardStepInspection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views.Inspections"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+	mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition  Height="*" />
+			<RowDefinition  Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+			<StackPanel Style="{StaticResource Title}">
+				<TextBlock Style="{StaticResource TitleTitle}">Inspectie Opstellen</TextBlock>
+			</StackPanel>
+			<StackPanel Style="{StaticResource WizardNav}">
+				<Button Style="{StaticResource WizardNavBtn}">1</Button>
+				<Button Style="{StaticResource WizardNavBtn}">2</Button>
+				<Button Style="{StaticResource WizardNavBtn}">3</Button>
+				<Button Style="{StaticResource WizardNavBtn}">4</Button>
+			</StackPanel>
+			<StackPanel Style="{StaticResource Form}">
+				<components:TextField x:Name="InspectionName" Title="Inspectie naam" Placeholder="inspectie" Text=""></components:TextField>
+				<components:TextField x:Name="FieldCity" Title="Plaats" Placeholder="Den Bosch" Text=""></components:TextField>
+			</StackPanel>
+		</StackPanel>
+
+		<StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource BtnBar}">
+			<Button Style="{StaticResource BtnSecondary}">Annuleren</Button>
+			<Button HorizontalAlignment="Right" Style="{StaticResource BtnPrimary}">Volgende</Button>
+		</StackPanel>
+	</Grid>
+</Page>

@@ -1,0 +1,70 @@
+﻿@model Festispec.WebApplication.ViewModels.AvailabilityViewModel
+
+@{
+    ViewData["Title"] = "Availability";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="@Href("~/js/vendor/air-datepicker/dist/css/datepicker.min.css")" type="text/css" />
+}
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/js/vendor/air-datepicker/dist/js/datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/vendor/air-datepicker/dist/js/i18n/datepicker.nl.js")"></script>
+    <script>
+        var selectedDates = [];
+
+        function getClickedDate (a1, a2) {
+            var a = [], diff = [];
+            for (var i = 0; i < a1.length; i++) {
+                a[a1[i]] = true;
+            }
+            for (var i = 0; i < a2.length; i++) {
+                if (a[a2[i]]) {
+                    delete a[a2[i]];
+                } else {
+                    a[a2[i]] = true;
+                }
+            }
+            for (var k in a) {
+                diff.push(k);
+            }
+            return new Date(diff[0]);
+        }
+
+        var temp = $('#date-select').datepicker({
+            multipleDates: true,
+            showOtherMonths: false,
+            todayButton: true,
+            onSelect: function (formattedDate, date, inst) {
+                $.ajax({
+                      type: 'POST',
+                      url: 'Availability/Index',
+                      data: {
+                          dateTime: getClickedDate(selectedDates, date).toUTCString()
+                      }
+                });
+                selectedDates = $.extend(true, [], date);
+            },         
+        }).data('datepicker');
+
+        @foreach (var d in Model.dates)
+        {
+            @:selectedDates.push(new Date("@d.Day.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'")"));
+        }
+        temp.selectedDates = $.extend(true, [], selectedDates);
+        temp.update();
+    </script>
+}
+<h1 class="page-title">Beschikbaarheid Opgeven</h1>
+<div id="date-select" data-language="nl"></div>
+
+

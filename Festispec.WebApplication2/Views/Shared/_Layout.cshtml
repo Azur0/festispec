@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @if (Session["userID"] != null)
+    {
+        <nav class="primary-menu">
+            <ul>
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Profiel", "Index", "Profile")</li>
+                <li>@Html.ActionLink("Locatie", "Index", "Location")</li>
+                <li>@Html.ActionLink("Mijn beschikbaarheid", "Index", "Availability")</li>
+                <hr />
+                <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+            </ul>
+        </nav>
+        <div class="header">
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    }
+
+    <div class="page-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/js/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

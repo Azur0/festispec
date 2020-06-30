@@ -1,0 +1,120 @@
+﻿@model Festispec.WebApplication.ViewModels.InspectionFormViewModel
+
+@{
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+}
+
+<h1 class="page-title">Overview inspectie</h1>
+
+<div id="inspectionform">
+@{
+    int questionCount = 1;
+
+    foreach (var question in Model.FormQuestion)
+    {
+        <div class="inspection-question">
+            <div class="question-header">
+                <div class="inspection--instructions">
+                    <div class="inspection--instructions-toggle">
+                        @questionCount @question.Question
+                    </div>
+                    <div class="inspection--instructions-text">
+                        @Html.Label(question.Instructions == null ? "Geen instructies" : question.Instructions)
+                    </div>
+                </div>
+            </div>
+            <div class="question-body">
+                @if (question.Type.Equals("open"))
+                {
+                    @Html.Label(question.Answer.Count() == 0 ? "" : question.Answer.First().Value);
+                }
+                else if (question.Type.Equals("multiple_choice"))
+                {
+                    @Html.Label(question.Answer.Count() == 0 ? "" : question.Answer.First().Value);
+                }
+                else if (question.Type.Equals("image"))
+                {
+                    if (question.Answer.Count() != 0)
+                    {
+                        <img height="150" width="150" src="@Url.Content(question.Answer.First().Value)" />
+                    }
+                }
+            </div>
+        </div>
+        questionCount++;
+    }
+
+} 
+</div>
+<div class="footer questions-footer">
+    <div class="footer-buttons">
+        <button id="return" class="btn btn-save btn-secondary">
+            <a style="text-decoration: none; color:#4a5568" href="@Request.Url.Authority/Inspection/Index/@Model.Id">Terug</a>
+        </button>
+        @using (Html.BeginForm("Overview", "Inspection"))
+        {
+            <button id="finish" class="btn btn-next btn-primary" type="submit">
+                Afronden
+            </button>
+        }
+        <div id="scroll" class="btn btn-top btn-secondary"></div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-bar--progress"></div>
+    </div>
+</div>
+
+@{
+    <script>
+        console.log("@Request.Url.Authority/Inspection/Index/@Model.Id");
+        document.getElementById("return").addEventListener("click", function () {
+            window.location.href = "@Request.Url.Authority/Inspection/Index/@Model.Id"
+        })
+
+         document.getElementById("scroll").addEventListener("click", function () {
+             $(window).scrollTop(0);
+        });
+    </script>
+
+    double percentage = 0;
+    double amountQuestions = Model.FormQuestion.Count();
+    double answeredQuestionsCount = Model.FormQuestion.Where(fq =>
+    {
+        if (fq.Answer.Count() > 0)
+        {
+            if (fq.Answer.FirstOrDefault().Value != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }).ToList().Count();
+
+    if (Model.FormQuestion.Count() > 0)
+    {
+        percentage = (100 / amountQuestions) * answeredQuestionsCount;
+    }
+
+    if(amountQuestions != answeredQuestionsCount)
+    {
+        <script>
+            var finishButton = document.getElementById("finish");
+            var newEl = document.createElement('div');
+
+            newEl.className = "btn btn-next btn-primary";
+            newEl.innerHTML = "Afronden";
+            finishButton.parentNode.replaceChild(newEl, finishButton);
+            newEl.addEventListener('click', function () {
+                alert("Je hebt nog niet alle vragen beantwoord!");
+            })
+
+        </script>
+    }
+
+    <script>
+        document.getElementsByClassName('progress-bar--progress')[0].style.width = "@percentage%";
+    </script>
+}

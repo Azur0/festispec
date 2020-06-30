@@ -1,0 +1,95 @@
+<Page xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:Telerik.UI.Xaml.Controls.Primitives"
+      xmlns:telerikGrid1="using:Telerik.Data.Core"
+      x:Class="Festispec.DesktopApplication.Views.UsersView"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Width="1150" HorizontalAlignment="Center" Margin="70 0 0 0">
+            <TextBlock Text="Gebruikers" Margin="0 10 0 0" FontSize="36" Foreground="#4A5568"/>
+            <TextBox x:Name="SearchBox" Width="200" HorizontalAlignment="Right" PlaceholderText="Zoeken" TextChanged="SearchBox_TextChanged"/>
+            <TextBlock Tapped="OpenUsersCreatePage"
+                   Width="200"
+                   Margin="0 30 0 0"
+                   FontStyle="Italic"
+                   Foreground="#708096"
+                   FontWeight="Bold"
+                   TextDecorations="Underline"
+                   Text="+ nieuwe gebruiker toevoegen"
+                   HorizontalAlignment="Left"
+                   PointerEntered="PointerEntered"
+                   PointerExited="PointerExited"/>
+            
+            <telerikGrid:RadDataGrid x:Name="DataGrid"
+                                 ItemsSource="{Binding}"
+                                 AutoGenerateColumns="False"
+                                 Height="855"
+                                 UserGroupMode="Disabled"
+                                 Margin="0 5 0 0">
+
+                <telerikGrid:RadDataGrid.Columns>
+                    <telerikGrid:DataGridTemplateColumn Header="Name" CanUserReorder="False">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+                    <telerikGrid:DataGridTemplateColumn Header="Email" CanUserReorder="False">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+                    <telerikGrid:DataGridTemplateColumn Header="Adres" CanUserReorder="False">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Address}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+
+                    <telerikGrid:DataGridTemplateColumn Header="Rol" CanUserReorder="False">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Role}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+
+                    <telerikGrid:DataGridTemplateColumn Header="Acties" CanUserReorder="False">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Margin="2" Tag="{Binding Id}" Tapped="OpenUsersViewPage">Bekijken</Button>
+                                    <Button Margin="2" Tag="{Binding Id}" Tapped="OpenUsersEditPage">Bewerken</Button>
+                                    <Button Margin="2" Tag="{Binding Id}" Tapped="DeleteUser">Verwijderen</Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+
+                </telerikGrid:RadDataGrid.Columns>
+
+
+            </telerikGrid:RadDataGrid>
+            
+            <Custom:RadPaginationControl HorizontalAlignment="Center"
+                                     Margin="0 20 0 0"
+                                     DisplayMode="ArrowsAndThumbnails"
+                                     PageProvider="{Binding ElementName=DataGrid}"
+                                     PointerEntered="PointerEntered"
+                                     PointerExited="PointerExited"/>
+        </StackPanel>
+
+        <components:Loader x:Name="overlay"></components:Loader>
+    </Grid>
+</Page>

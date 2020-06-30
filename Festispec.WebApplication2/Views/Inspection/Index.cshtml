@@ -1,0 +1,141 @@
+﻿@model Festispec.WebApplication.ViewModels.InspectionFormViewModel
+<!-- Header -->
+<!--
+<div class="alert alert--warning">
+    <span class="alert--type">Warning</span> Je tijd is bijna op
+    <div class="alert--close">x</div>
+</div>
+<div class="alert alert--error">
+    <span class="alert--type">Error</span> Je tijd is bijna op
+    <div class="alert--close">x</div>
+</div>
+<div class="alert alert--info">
+    <span class="alert--type">Info</span> Je tijd is bijna op
+    <div class="alert--close">x</div>
+</div>
+<div class="alert alert--success">
+    <span class="alert--type">Success</span> Je tijd is bijna op
+    <div class="alert--close">x</div>
+</div>
+
+-->
+
+@{
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+}
+
+<h2 class="questions-title">@Model.EventName</h2>
+
+<!-- Question -->
+@using (Html.BeginForm("Index", "Inspection", FormMethod.Post, new { enctype = "multipart/form-data", id = "inspectionform"}))
+{
+    if (Model.FormQuestion.Count() == 0)
+    {
+        <p class="text-center">Oops! Het ziet er naar uit dat er geen invulbare vragen zijn.</p>
+    }
+    else
+    {
+        <input type="hidden" id="SaveType" name="SaveType" value="0" />
+
+        int questionCount = 1;
+        foreach (var question in Model.FormQuestion)
+        {
+            <div class="inspection-question">
+                <div class="question-header">
+                    <div class="inspection--instructions">
+                        <div class="inspection--instructions-toggle">
+                            @questionCount @question.Question
+                        </div>
+                        <div class="inspection--instructions-text">
+                            @Html.Label(question.Instructions == null ? "Geen instructies" : question.Instructions)
+                        </div>
+                    </div>
+                </div>
+                <div class="question-body">
+                    @if (question.Type.Equals("open"))
+                    {
+                        @Html.TextBox("question" + question.Id, question.Answer.Count() == 0 ? "" : question.Answer.First().Value);
+                    }
+                    else if (question.Type.Equals("multiple_choice"))
+                    {
+                        for (int i = 0; i < question.Multplechoice.Count(); i++)
+                        {
+                            @Html.RadioButton("question" + question.Id, question.Multplechoice.ToList()[i].Option, question.Answer.Count() == 1 ? question.Multplechoice.ToList()[i].Option == question.Answer.First().Value : false, null)
+                            @question.Multplechoice.ToList()[i].Option
+                        }
+                    }
+                    else if (question.Type.Equals("image"))
+                    {
+                        if (question.Answer.Count() != 0)
+                        {
+                            <img height="150" width="150" src="@Url.Content(question.Answer.First().Value)" />
+                        }
+                        @Html.TextBox("question" + question.Id, "", new { type = "file", accept = "image/x-png,image/gif,image/jpeg" })
+                    }
+                </div>
+            </div>
+            questionCount++;
+        }
+
+        <!-- Footer -->
+        <div class="footer questions-footer">
+            <div class="footer-buttons">
+                <button id="save" class="btn btn-save btn-secondary" type="submit">
+                    💾
+                </button>
+                <button id="finish" class="btn btn-next btn-primary" type="submit">
+                    Afronden
+                </button>
+                <div id="scroll" class="btn btn-top btn-secondary"></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar--progress"></div>
+            </div>
+        </div>
+    }
+}
+
+@{
+    <script>
+        var form = document.getElementById("inspectionform");
+
+        document.getElementById("save").addEventListener("click", function () {
+            form.submit();
+        });
+
+         document.getElementById("scroll").addEventListener("click", function () {
+             $(window).scrollTop(0);
+        });
+
+        document.getElementById("finish").addEventListener("click", function () {
+            document.getElementById("SaveType").value = "1";
+            form.submit();
+        });
+    </script>
+
+    double percentage = 0;
+    double amountQuestions = Model.FormQuestion.Count();
+    double answeredQuestionsCount = Model.FormQuestion.Where(fq =>
+    {
+        if (fq.Answer.Count() > 0)
+        {
+            if (fq.Answer.FirstOrDefault().Value != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }).ToList().Count();
+
+    if (Model.FormQuestion.Count() > 0)
+    {
+        percentage = (100 / amountQuestions) * answeredQuestionsCount;
+    }
+
+    <script>
+        document.getElementsByClassName('progress-bar--progress')[0].style.width = "@percentage%";
+    </script>
+}

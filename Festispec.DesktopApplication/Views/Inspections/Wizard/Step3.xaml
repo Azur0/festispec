@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.Inspections.Wizard.Step3"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:converters="using:Festispec.DesktopApplication.Views.Components.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    >
+
+    <Page.Resources>
+        <converters:ToActionConverter x:Key="ToActionConverter"/>
+    </Page.Resources>
+
+    <StackPanel x:Name="RootPanel" DataContext="{x:Bind inspectionViewModel}">
+
+        <Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0">
+				<components:QuestionBuilder
+					x:Name="questionBuilder"
+					HorizontalAlignment="Left"
+					onSaveEvent="{x:Bind OnSave}"
+					ComponenWidth="500"
+					IsEnabled="False" Margin="0 0 0 35"/>
+
+				<components:GroupWrapper
+					x:Name="templates"
+                    IsEnabled="False"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+                    ComponenWidth="500"
+					Title="Templates (dubbel-klik)">
+					<components:GroupWrapper.ChildContent>
+						<ScrollViewer>
+							<ListView ItemsSource="{Binding Templates}">
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<StackPanel DoubleTapped="StackPanel_DoubleTapped" Tag="{Binding Id}" Style="{StaticResource TemplateListItem}">
+											<TextBlock Text="{Binding Name}"></TextBlock>
+										</StackPanel>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</ScrollViewer>
+					</components:GroupWrapper.ChildContent>
+				</components:GroupWrapper>
+			</StackPanel>
+
+			
+
+			<StackPanel Grid.Row="0" Grid.Column="1">
+				<TextBlock>Vragenlijst</TextBlock>
+				<ComboBox 
+                    x:Name="comboBox" 
+                    ItemsSource="{Binding InspectionForms}"
+                    SelectedItem="{Binding SelectedInspectionForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    PlaceholderText="Selecteer een formulier"
+                    SelectionChanged="combobox_Changed"
+					Style="{StaticResource ComboBox}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"></TextBlock>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<ScrollViewer>
+					<ListView Background="LightGray" Padding="0 20" ItemsSource="{Binding SelectedInspectionForm.FormQuestions}"
+							  x:Name="listViewQuestions" 
+							  CanReorderItems="True" 
+							  CanDragItems="True" 
+							  AllowDrop="True">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<components:ExpandGroupbox 
+									onEditEvent="ExpandGroupbox_onEditEvent" 
+									onDeleteEvent="ExpandGroupbox_onDeleteEvent" 
+									DataContext="{Binding}">
+								</components:ExpandGroupbox>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</ScrollViewer>
+
+			</StackPanel>
+		</Grid>
+    </StackPanel>
+</Page>

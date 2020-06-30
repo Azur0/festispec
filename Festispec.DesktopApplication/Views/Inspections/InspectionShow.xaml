@@ -1,0 +1,117 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.InspectionShow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+	mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition  Height="*" />
+			<RowDefinition  Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+			<StackPanel Style="{StaticResource Title}" Orientation="Horizontal">
+				<TextBlock Style="{StaticResource TitleTitle}">Inspectie: </TextBlock>
+				<TextBlock Style="{StaticResource TitleTitle}" Text="{x:Bind inspectionViewModel.Name}"/>
+			</StackPanel>
+
+			<Grid Height="750">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="1*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition  Height="1*" />
+					<RowDefinition  Height="2*" />
+					<RowDefinition  Height="2*" />
+				</Grid.RowDefinitions>
+
+				<components:GroupWrapper 
+					Title="Opdracht gegevens" 
+					HorizontalAlignment="Left"
+					Grid.Column="0"
+					Grid.Row="0">
+					<components:GroupWrapper.ChildContent>
+						<StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Naam: "/>
+								<TextBlock Text="{x:Bind inspectionViewModel.Name}"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Uitvoerings datum: "/>
+								<TextBlock Text="{x:Bind inspectionViewModel.ExecutionDate}"/>
+							</StackPanel>
+						</StackPanel>
+					</components:GroupWrapper.ChildContent>
+				</components:GroupWrapper>
+
+				<components:GroupWrapper 
+					Title="Vragenlijsten"
+					HorizontalAlignment="Left"
+					Grid.Column="0"
+					Grid.Row="1"
+					ComponentHeight="240">
+					<components:GroupWrapper.ChildContent>
+						<ScrollViewer Height="210">
+							<ListView  ItemsSource="{x:Bind inspectionViewModel.InspectionForms}" >
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Style="{StaticResource SimpleListView}">
+											<TextBlock Text="{Binding Name}"></TextBlock>
+											<ListView ItemsSource="{Binding Assignees}">
+												<ListView.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding FullName}"></TextBlock>
+													</DataTemplate>
+												</ListView.ItemTemplate>
+											</ListView>
+										</StackPanel>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</ScrollViewer>
+					</components:GroupWrapper.ChildContent>
+				</components:GroupWrapper>
+
+				<components:GroupWrapper 
+					Title="Rapporten"
+					HorizontalAlignment="Left"
+					Grid.Column="0"
+					Grid.Row="2"
+					ComponentHeight="240">
+					<components:GroupWrapper.ChildContent>
+						<ListView ItemsSource="{x:Bind inspectionViewModel.InspectionForms}">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<StackPanel>
+										<TextBlock Text="{Binding Name}"></TextBlock>
+										<ListView ItemsSource="{Binding Assignees}">
+											<ListView.ItemTemplate>
+												<DataTemplate>
+													<TextBlock Text="{Binding FullName}"></TextBlock>
+												</DataTemplate>
+											</ListView.ItemTemplate>
+										</ListView>
+									</StackPanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</components:GroupWrapper.ChildContent>
+				</components:GroupWrapper>
+			</Grid>
+		</StackPanel>
+		
+		<components:BtnBar Grid.Column="0" Grid.Row="1">
+			<components:BtnSecondary>Bewerken</components:BtnSecondary>
+			<components:BtnSecondary RelativePanel.AlignRightWithPanel="True">Verwijderen</components:BtnSecondary>
+		</components:BtnBar>
+	</Grid>
+</Page>

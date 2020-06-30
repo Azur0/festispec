@@ -1,0 +1,73 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.DashboardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+	mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid x:Name="RootPanel" >
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition  Height="*" />
+				<RowDefinition  Height="Auto" />
+			</Grid.RowDefinitions>
+			
+				<StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+					<StackPanel Style="{StaticResource Title}">
+						<TextBlock Style="{StaticResource TitleTitle}">Dashboard</TextBlock>
+					</StackPanel>
+				<ScrollViewer >
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0 0 20 0">
+
+                            <WebView Height="700" Width="Auto" x:Name="webViewCalendar" LoadCompleted="webViewCalendar_LoadCompleted"></WebView>
+
+                        </StackPanel>
+
+                        
+						<components:GroupWrapper Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Title="Kaart" ComponentHeight="750" ComponenWidth="530">
+                            <components:GroupWrapper.ChildContent>
+                                <StackPanel Orientation="Vertical">
+									<StackPanel Background="AliceBlue">
+										<WebView Height="600" Width="500" x:Name="webView" LoadCompleted="webView_LoadCompleted"></WebView>
+									</StackPanel>
+									<StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Assets/MarkerBlue.png" Height="24" Width="24"/>
+											<TextBlock FontSize="24">Opdracht</TextBlock>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Assets/MarkerRed.png" Height="24" Width="24"/>
+											<TextBlock FontSize="24">Inspecteur</TextBlock>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Assets/MarkerYellow.png" Height="24" Width="24"/>
+											<TextBlock FontSize="24">Klant</TextBlock>
+										</StackPanel>
+									</StackPanel>
+								</StackPanel>
+                            </components:GroupWrapper.ChildContent>
+						</components:GroupWrapper>
+						
+						
+					</Grid>
+				</ScrollViewer>
+			</StackPanel>
+			
+		</Grid>
+	</Grid>
+</Page>

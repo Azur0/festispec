@@ -1,0 +1,44 @@
+﻿@model Festispec.WebApplication.ViewModels.LocationViewModel
+
+@{
+    ViewData["Title"] = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if(Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+}
+
+<h1 class="page-title">Locatie</h1>
+
+<div class="profile-form text-center">
+    <div class="profile-form--title">
+        Locatie
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="profile-form--content text-left">
+            <div class="profile-form--input">
+                @Html.Label("PostalCode", "Postcode")
+                @Html.Editor("PostalCode", new { @Value = Model.PostalCode })
+                @Html.ValidationMessageFor(model => model.PostalCode)
+            </div>
+            <div class="profile-form--input">
+                @Html.Label("Number", "Huisnummer")
+                @Html.Editor("Number", new { @Value = Model.Number })
+                @Html.ValidationMessageFor(model => model.Number)
+            </div>
+        </div>
+        <div class="profile-form--footer">
+            <button type="submit" class="btn btn-primary">Bijwerken</button>
+        </div>
+        if (Model.ShowMessage)
+        {
+            <p> Je locatie is succesvol opgeslagen.</p>
+        }
+    }
+</div>
+

@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.LawCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="161*"/>
+            <RowDefinition Height="339*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer>
+                <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+                    <StackPanel Style="{StaticResource Title}">
+                        <TextBlock Style="{StaticResource TitleTitle}" SelectionChanged="TextBlock_SelectionChanged">Wetgeving Toevoegen</TextBlock>
+                    </StackPanel>
+
+                    <components:ErrorBox x:Name="errorBox" Visibility="Collapsed"></components:ErrorBox>
+
+                    <StackPanel Style="{StaticResource Form}">
+
+                        <components:TextField x:Name="FieldName" Title="Naam" Placeholder="" Text="{x:Bind Mode=TwoWay, Path=LawViewModel.Name}"/>
+                        <TextBlock Text="Omschrijving" />
+                        <TextBox x:Name="FieldAbout" Style="{StaticResource FormInput}"  Height="300" TextWrapping="Wrap" AcceptsReturn="True"  Text="{x:Bind Mode=TwoWay, Path=LawViewModel.Content}" Loaded="FieldAbout_Loaded" Width="596"/>
+                        <components:TextField x:Name="FieldCity" Title="Stad" Placeholder="Stad" Text="{x:Bind Mode=TwoWay, Path=LawViewModel.City}"/>
+
+                    </StackPanel>
+
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <components:BtnBar Grid.Column="0" Grid.Row="1">
+                <components:BtnSecondary Tapped="CancelClick">Annuleer</components:BtnSecondary>
+                <components:BtnPrimary Tapped="SaveLaw">Opslaan</components:BtnPrimary>
+            </components:BtnBar>
+        </Grid>
+        <components:Loader x:Name="overlay" Visibility="Collapsed" Grid.RowSpan="2"></components:Loader>
+    </Grid>
+</Page>

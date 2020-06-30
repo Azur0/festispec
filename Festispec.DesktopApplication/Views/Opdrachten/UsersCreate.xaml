@@ -1,0 +1,49 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.UsersCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer>
+                <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+                    <StackPanel Style="{StaticResource Title}">
+                        <TextBlock Style="{StaticResource TitleTitle}">Gebruiker Toevoegen</TextBlock>
+                    </StackPanel>
+
+                    <components:ErrorBox x:Name="errorBox" Visibility="Collapsed"></components:ErrorBox>
+
+                    <StackPanel Style="{StaticResource Form}">
+                    <components:DropDown Title="Rol" Options="{x:Bind dropDownItems.GetOptions}" Placeholder="Selecteer een rol" SelectedValue="{x:Bind UserViewModel.UserRoleOption, Mode=TwoWay}"></components:DropDown>
+                    <components:TextField x:Name="FieldFirstName" ComponentWidth="600" Title="Voornaam" Placeholder="Boris" Text="{x:Bind UserViewModel.FirstName, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldMiddleName" Title="Tussenvoegsel" Text="{x:Bind UserViewModel.MiddleName, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldLastName" Title="Achternaam" Placeholder="Plunderaar" Text="{x:Bind UserViewModel.LastName, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldEmail" Title="E-Mail" Placeholder="info@example.nl"  Text="{x:Bind UserViewModel.Email, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldPassword" Title="Wachtwoord"  Text="{x:Bind UserViewModel.Password, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldPostcode" Title="Postcode" Placeholder="1234 AB" Text="{x:Bind UserViewModel.PostalCode, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldHousenumber" Title="Huisnummer" Placeholder="101" Text="{x:Bind UserViewModel.Number, Mode=TwoWay}"></components:TextField>
+                    <components:TextField x:Name="FieldCity" Title="Plaats" Placeholder="Den Bosch" Text="{x:Bind UserViewModel.City, Mode=TwoWay}"></components:TextField>
+                </StackPanel>
+            </StackPanel>
+            </ScrollViewer>
+
+			<components:BtnBar Grid.Column="0" Grid.Row="1">
+				<components:BtnSecondary Tapped="CancelClick">Cancel</components:BtnSecondary>
+				<components:BtnPrimary Tapped="SaveUser">Save User</components:BtnPrimary>
+			</components:BtnBar>
+		</Grid>
+        <components:Loader x:Name="overlay" Visibility="Collapsed"></components:Loader>
+    </Grid>
+</Page>

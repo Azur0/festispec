@@ -1,0 +1,148 @@
+﻿@model Festispec.WebApplication2.ViewModels.ReportViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Report</title>
+    <link rel="stylesheet" href="~/css/report.css" type="text/css" />
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+    <script src="~/js/vendor/jquery/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="report">
+        <h1>Rapport: @Model.Event.Name</h1>
+        <div class="text-right option-bar">
+            <span class="extra hideonprint">
+                <i class="fa fa-plus"></i> Extra data toevoegen
+            </span>
+            <span class="print hideonprint">
+                <i class="fa fa-print"></i> Printen
+            </span>
+            <div class="extra-data text-left">
+                <textarea></textarea>
+            </div>
+        </div>
+
+        @{
+            foreach (var inspection in Model.EventForms)
+            {
+                <div class="report-inspection">
+                    <div class="report-inspection-title">
+                        <h2>Vragenlijst - @inspection.Name</h2>
+                    </div>
+
+                    @foreach (var question in inspection.FormQuestion)
+                    {
+
+                        if (question.Type == "open" || question.Type == "image")
+                        {
+                            <div class="report-inspection-question report-inspection-question--open">
+                                <h3>@question.Question</h3>
+
+                                <table>
+                                    @foreach (var answer in question.Answer)
+                                    {
+                                        <tr>
+                                            <td>@answer.Value</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        if (question.Type == "multiple_choice")
+                        {
+                            <div class="report-inspection-question report-inspection-question--multiplechoice">
+                                <h3>@question.Question</h3>
+
+
+                                <canvas id="piechart-@question.Id"></canvas>
+
+                                <script type="text/javascript">
+                                    function compressArray(original) {
+                                        var elements = [];
+                                        var counts = [];
+                                        var copy = original.slice(0);
+
+	                                    for (var i = 0; i < original.length; i++) {
+		                                    var c = 0;
+		                                    for (var w = 0; w < copy.length; w++) {
+                                                if (original[i] == copy[w]) {
+                                                    c++;
+				                                    delete copy[w];
+			                                    }
+		                                    }
+                                            if (c > 0) {
+			                                    elements.push(original[i]);
+                                                counts.push(c);
+		                                    }
+                                        }
+                                        var data = [];
+                                        data.push(elements, counts);
+                                        return data;
+                                    }
+
+                                    var answers = [];
+                                    @foreach (var answer in question.Answer)
+                                    {
+                                        @:answers.push("@answer.Value");
+                                    }
+
+                                    var datacount = compressArray(answers);
+
+                                    new Chart(document.getElementById('piechart-@question.Id').getContext('2d'), {
+                                        type: 'pie',
+                                        data: {
+                                            datasets: [{
+                                                data: datacount[1]
+                                            }],
+                                            labels:datacount[0]
+                                        },
+                                        fill: false
+                                    });
+                                </script>
+                            </div>
+                        }
+                        <div class="text-right">
+                            <span class="extra hideonprint">
+                                <i class="fa fa-plus"></i> Extra data toevoegen
+                            </span>
+                            <div class="extra-data question-extra-data text-left">
+                                <textarea></textarea>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        <div class="text-right option-bar mb-3">
+            <span class="extra hideonprint">
+                <i class="fa fa-plus"></i> Extra data toevoegen
+            </span>
+            <span class="print hideonprint">
+                <i class="fa fa-print"></i> Printen
+            </span>
+            <div class="extra-data text-left">
+                <textarea></textarea>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $('.print').on('click', function () { window.print() });
+        $('.extra').on('click', function () {
+            var x = $(this).parent().find('.extra-data');
+            x.show();
+            x.find('textarea').focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+﻿<Application
+    x:Class="Festispec.DesktopApplication.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication"
+	RequestedTheme="Light">
+
+    <Application.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceDictionaries/Colors.xaml"/>
+				<ResourceDictionary Source="ResourceDictionaries/WizardNavDictionary.xaml"/>
+				<ResourceDictionary Source="ResourceDictionaries/BtnBar.xaml"/>
+				<ResourceDictionary Source="ResourceDictionaries/BtnDefault.xaml"/>
+				<ResourceDictionary Source="ResourceDictionaries/FormItems.xaml"/>
+				<ResourceDictionary Source="ResourceDictionaries/Layout.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+
+	</Application.Resources>
+
+</Application>

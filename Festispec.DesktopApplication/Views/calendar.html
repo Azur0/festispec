@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.css' rel='stylesheet' />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.css' rel='stylesheet' />
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/locales/nl.js"></script>   
+
+    <script>
+
+        function loadCalendar() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'nl',
+                plugins: ['dayGrid']
+            });
+
+            calendar.render();
+
+            data.forEach(av => {
+                calendar.addEvent({
+                  title: av.user,
+                  start: av.time,
+                  allDay: true
+                });
+            });
+        }
+
+    </script>
+
+    <style>
+        * {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+
+</head>
+<body style="margin-right: 20px;">
+
+    <div id='calendar'></div>
+
+</body>
+</html>

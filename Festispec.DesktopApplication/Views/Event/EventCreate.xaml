@@ -1,0 +1,58 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.EventCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="161*"/>
+            <RowDefinition Height="339*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer>
+                <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+                    <StackPanel Style="{StaticResource Title}">
+                        <TextBlock Style="{StaticResource TitleTitle}">Opdracht Toevoegen</TextBlock>
+                    </StackPanel>
+
+                    <components:ErrorBox x:Name="errorBox" Visibility="Collapsed"></components:ErrorBox>
+
+                    <StackPanel Style="{StaticResource Form}">
+                        <components:DropDown Title="Klant" Options="{x:Bind dropDownItemsCustomer.GetOptions}" Placeholder="Selecteer een klant" SelectedValue="{x:Bind EventViewModel.CustomerOption, Mode=TwoWay}"></components:DropDown>
+
+                        <components:TextField x:Name="FieldTitle" Title="Opdracht naam" Placeholder="Naam opdracht" Text="{x:Bind EventViewModel.Name, Mode=TwoWay}"/>
+
+                        <components:DateTimeField Title="Start Datum" HorizontalAlignment="Left" Date="{x:Bind EventViewModel.StartDate, Mode=TwoWay}"></components:DateTimeField>
+
+                        <components:DateTimeField Title="Eind Datum" HorizontalAlignment="Left" Date="{x:Bind EventViewModel.EndDate, Mode=TwoWay}"></components:DateTimeField>
+
+                        <components:TextField x:Name="FieldPostcode" Title="Postcode" Placeholder="1234 AB" Text="{x:Bind EventViewModel.PostalCode, Mode=TwoWay}"/>
+                        <components:TextField x:Name="FieldHousenumber" Title="Huisnummer" Placeholder="101" Text="{x:Bind EventViewModel.Number, Mode=TwoWay}"/>
+                        <components:TextField x:Name="FieldCity" Title="Stad" Placeholder="Den Bosch" Text="{x:Bind EventViewModel.City, Mode=TwoWay}"/>
+                        <components:TextField x:Name="About" Title="about" Placeholder="Omschrijving van de opdracht" Text="{x:Bind EventViewModel.About, Mode=TwoWay}"/>
+
+                    </StackPanel>
+
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <components:BtnBar Grid.Column="0" Grid.Row="1">
+                <components:BtnSecondary Tapped="CancelClick">Annuleer</components:BtnSecondary>
+				<components:BtnPrimary Tapped="SaveEvent" RelativePanel.AlignRightWithPanel="True">Opslaan</components:BtnPrimary>
+            </components:BtnBar>
+        </Grid>
+        <components:Loader x:Name="overlay" Visibility="Collapsed" Grid.RowSpan="2"></components:Loader>
+    </Grid>
+</Page>

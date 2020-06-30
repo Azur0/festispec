@@ -1,0 +1,129 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.CustomerShow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootPanel" >
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer >
+                <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+                    <StackPanel Style="{StaticResource Title}">
+                        <TextBlock Style="{StaticResource TitleTitle}">Klant Bekijken</TextBlock>
+                    </StackPanel>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition  Height="1*" />
+							<RowDefinition  Height="1*" />
+						</Grid.RowDefinitions>
+
+						<components:GroupWrapper 
+							HorizontalAlignment="Left" 
+							Grid.Column="0" 
+							Grid.Row="0" 
+							Title="Klant Gegevens"
+							ComponenWidth="500">
+							<components:GroupWrapper.ChildContent>
+							<StackPanel>
+								<StackPanel Margin="0 0 0 20">
+									<TextBlock FontWeight="Bold">Naam:</TextBlock>
+										<TextBlock Text="{x:Bind customerViewModel.Name}"></TextBlock>
+								</StackPanel>
+
+								<StackPanel Margin="0 0 0 20">
+									<TextBlock FontWeight="Bold">Email:</TextBlock>
+										<TextBlock Text="{x:Bind customerViewModel.Email}"></TextBlock>
+								</StackPanel>
+
+								<StackPanel Margin="0 0 0 20">
+									<TextBlock FontWeight="Bold">Kvk:</TextBlock>
+										<TextBlock Text="{x:Bind customerViewModel.Kvk}"></TextBlock>
+								</StackPanel>
+
+								<StackPanel Margin="0 0 0 20">
+									<TextBlock FontWeight="Bold">Locatie:</TextBlock>
+									<TextBlock Text="Dont Know"></TextBlock>
+								</StackPanel>
+							</StackPanel>
+							</components:GroupWrapper.ChildContent>
+						</components:GroupWrapper>
+
+						<components:GroupWrapper Grid.Column="0" 
+												 Grid.Row="1" 
+												 Title="Opdrachten"
+												 HorizontalAlignment="Left"
+												 ComponenWidth="500">
+							<components:GroupWrapper.WrapperBtn >
+								<components:BtnAdd Tapped="CreateEvent" Margin="0,10"/>
+							</components:GroupWrapper.WrapperBtn>
+							<components:GroupWrapper.ChildContent>
+								<ListView ItemsSource="{x:Bind customerViewModel.Event}">
+									<ListView.ItemTemplate>
+										<DataTemplate>
+											<RelativePanel>
+												<TextBlock Text="{Binding Name}"></TextBlock>
+												<components:BtnRound Tag="{Binding Id}" Click="OpenEventShow" RelativePanel.AlignRightWithPanel="True">
+													<Image Width="15" Source="/Assets/svg/View.svg"/>
+												</components:BtnRound>
+												<Button >Bekijk</Button>
+											</RelativePanel>
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+                            </components:GroupWrapper.ChildContent>
+						</components:GroupWrapper>
+
+						<components:GroupWrapper 
+							Grid.Column="2"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							Title="Kaart"
+							ComponentHeight="725"
+							ComponenWidth="530"
+							HorizontalAlignment="Right">
+							<components:GroupWrapper.ChildContent>
+								<StackPanel Orientation="Vertical">
+									<StackPanel Background="AliceBlue">
+										<WebView Height="600" Width="500" x:Name="webView" LoadCompleted="webView_LoadCompleted"></WebView>
+									</StackPanel>
+									<StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Assets/MarkerBlue.png" Height="24" Width="24"/>
+											<TextBlock FontSize="24">Opdracht</TextBlock>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Assets/MarkerYellow.png" Height="24" Width="24"/>
+											<TextBlock FontSize="24">Klant</TextBlock>
+										</StackPanel>
+									</StackPanel>
+								</StackPanel>
+							</components:GroupWrapper.ChildContent>
+						</components:GroupWrapper>
+					</Grid>
+				</StackPanel>
+            </ScrollViewer>
+
+			<components:BtnBar Grid.Column="0" Grid.Row="1">
+				<components:BtnSecondary Tapped="CancelClick">Terug</components:BtnSecondary>
+				<components:BtnSecondary Tapped="EditCustomer" RelativePanel.AlignRightWithPanel="True">Bewerken</components:BtnSecondary>
+			</components:BtnBar>
+		</Grid>
+
+        <components:Loader x:Name="overlay" Visibility="Collapsed"></components:Loader>
+    </Grid>
+</Page>

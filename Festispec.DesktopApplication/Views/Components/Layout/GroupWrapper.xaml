@@ -1,0 +1,21 @@
+﻿<UserControl
+    x:Class="Festispec.DesktopApplication.Views.Components.GroupWrapper"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+	<StackPanel Width="{x:Bind ComponenWidth}" MinHeight="{x:Bind ComponentHeight}">
+		<RelativePanel Style="{StaticResource GroupWrapHead}">
+			<TextBlock Style="{StaticResource GroupWrapHeadText}" Text="{x:Bind Title}"/>
+			<StackPanel Width="{x:Bind ComponenWidth}" Height="40" HorizontalAlignment="Right">
+				<ContentPresenter x:Name="WrapperHeaderBtn" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+			</StackPanel>
+		</RelativePanel>
+		<StackPanel x:Name="ContentArea" Style="{StaticResource GroupWrapBorder}">
+			<ContentPresenter x:Name="wrapperContent" />
+		</StackPanel>
+	</StackPanel>
+</UserControl>

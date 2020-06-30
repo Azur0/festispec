@@ -1,0 +1,105 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:Custom="using:Festispec.DesktopApplication.Views.Components"
+    x:Class="Festispec.DesktopApplication.MainPage"
+    mc:Ignorable="d"
+    >
+
+    <Page.Resources>
+        
+        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#edf2f6" />
+        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#edf2f6" />
+        <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#4A5568" />
+        <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#708096" />
+        <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#4A5568" />
+        
+    </Page.Resources>
+
+    <Page.Background>
+        
+        <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush"/>
+        
+    </Page.Background>
+
+    <Grid x:Name="RootPanel">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <controls:DockPanel Background="#edf2f6" Grid.Column="0" Grid.Row="0">
+            
+            <StackPanel controls:DockPanel.Dock="Top">
+
+                <controls:WrapPanel Margin="20 25 20 25">
+                    <StackPanel>
+                        <Image Width="55" Source="https://www.pinclipart.com/picdir/big/355-3553881_stockvader-predicted-adig-user-profile-icon-png-clipart.png"/>
+                    </StackPanel>
+                    <StackPanel Margin="10 0 0 0">
+
+                        <TextBlock Text="{x:Bind user.FirstName}" Foreground="#4A5568" FontSize="22" />
+
+                    </StackPanel>
+                </controls:WrapPanel>
+
+                <Rectangle HorizontalAlignment="Stretch" Fill="#CBD5E0" Height="4"/>
+
+                <NavigationView x:Name="NavView"
+                            IsBackButtonVisible="Collapsed"
+                            IsPaneToggleButtonVisible="False"
+                            IsSettingsVisible="False"
+                            IsPaneOpen="True"
+                            PaneDisplayMode="Left">
+                    
+                    <NavigationView.MenuItems>
+
+						<NavigationViewItem x:Name="Dashboard" Content="Dashboard" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited" IsSelected="True"/>
+						<NavigationViewItem x:Name="Users" Content="Gebruikers" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Customers" Content="Klanten" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Assignments" Content="Opdrachten" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Inspections" Content="Inspecties" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Templates" Content="Templates" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Reports" Content="Rapporten" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                        <NavigationViewItem x:Name="Legislation" Content="Wetgeving" FontSize="22" Tapped="OpenView" PointerEntered="PointerEntered" PointerExited="PointerExited"/>
+                    </NavigationView.MenuItems>
+
+                </NavigationView>
+                
+            </StackPanel>
+
+            <StackPanel controls:DockPanel.Dock="Bottom" Background="#CBD5E0" Height="80" VerticalAlignment="Bottom">
+
+
+                <Border Tapped="Logout" BorderBrush="{x:Null}" Height="80">
+
+
+                    <TextBlock
+                        Text="Uitloggen"
+                        Foreground="#4A5568"
+                        FontSize="22"
+                        Margin="20 0 0 0"
+                        VerticalAlignment="Center"
+                        PointerEntered="PointerEntered"
+                        PointerExited="PointerExited"/>
+
+                </Border>
+                
+            </StackPanel>
+            
+        </controls:DockPanel>
+
+		<Frame x:Name="ContentFrame" Content="Frame" Grid.Column="1" Grid.Row="0"/>
+        
+    </Grid>
+    
+</Page>

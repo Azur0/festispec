@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="Festispec.DesktopApplication.Views.TemplateEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Festispec.DesktopApplication.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:components="using:Festispec.DesktopApplication.Views.Components"
+	mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition  Height="*" />
+			<RowDefinition  Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource PageWrap}">
+			<StackPanel Style="{StaticResource Title}">
+				<TextBlock Style="{StaticResource TitleTitle}">Template Bewerken</TextBlock>
+			</StackPanel>
+
+            <components:ErrorBox x:Name="errorBox" Visibility="Collapsed"></components:ErrorBox>
+
+            <StackPanel Orientation="Horizontal" Height="799">
+                <StackPanel>
+                    <components:TextField x:Name="FieldName" Title="Naam" Placeholder="Inspectie" Text="{x:Bind inspectionFormViewModel.Name, Mode=TwoWay}"></components:TextField>
+                    <components:QuestionBuilder x:Name="questionBuilder" HorizontalAlignment="Left" onSaveEvent="{x:Bind OnSave}" ComponenWidth="600"></components:QuestionBuilder>
+                </StackPanel>
+
+                <ScrollViewer Width="784">
+                    <ListView x:Name="ListViewQuestions" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <components:ExpandGroupbox onEditEvent="onEditEvent" onDeleteEvent="DeleteQuestion" DataContext="{Binding}"></components:ExpandGroupbox>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+            </StackPanel>
+
+		</StackPanel>
+		<components:BtnBar Grid.Column="0" Grid.Row="1">
+            <components:BtnSecondary Tapped="CancelClick">Cancel</components:BtnSecondary>
+			<components:BtnPrimary Tapped="UpdateTemplate" RelativePanel.AlignRightWithPanel="True">Update Template</components:BtnPrimary>
+		</components:BtnBar>
+        <components:Loader x:Name="overlay" Visibility="Collapsed"></components:Loader>
+	</Grid>
+</Page>
